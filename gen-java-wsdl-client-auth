@@ -1,1 +1,1 @@
-./lib/apache-cxf-2.7.5/bin/wsdl2java -d ./src/main/java -p com.mulesoft.demo.sumtotal.client.auth -autoNameResolution -verbose http://mtn-sademo-128.sumtotalsystems.com/SumTotalWS/Services/authentication.asmx?wsdl
+./lib/apache-cxf-2.7.5/bin/wsdl2java -d ./src/main/java -p com.mulesoft.demo.sumtotal.client.auth -frontend jaxws21 -autoNameResolution -verbose http://mtn-sademo-128.sumtotalsystems.com/SumTotalWS/Services/authentication.asmx?wsdl
