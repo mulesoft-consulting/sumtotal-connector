@@ -1,0 +1,130 @@
+Apache CXF 2.7.5 Release Notes
+
+1. Overview
+
+The 2.7.x versions of Apache CXF are significant new versions of CXF 
+that provides several new features and enhancements.  
+
+New features include: 
+
+* New UDP Transport.
+* New optional HTTP transport based on Apache HTTP Components HttpAsyncClient.
+* Support for the SOAP over UDP Specification.
+* SchemaValidation enhancements to allow just incoming messages to be validated
+* Support for WS-Discovery.
+   * Services can send Hello/Bye when started/stopped as well as respond to 
+     Probe requests
+   * API for sending probes and resolving to EndpointReferences
+* Initial support for parts of the JAX-RS 2.0 (JSR-339) specification
+   * Additional methods on WebClient to provide asynchronous invocations
+   * Support for new filters, interceptors, dynamic features, exception classes, 
+     and more, please see JAX-RS Basics for more information.
+
+Users are encourage to review the migration guide at:
+http://cxf.apache.org/docs/27-migration-guide.html
+for further information and requirements for upgrading to 2.7.x.
+
+In particular, Apache CXF no longer supports Java5.   Users must upgrade to 
+Java 6 in order to upgrade to Apache CXF 2.7.x.
+
+
+2.7.5 fixes over 40 JIRA issues reported by users and the community.
+
+
+
+2. Installation Prerequisites 
+
+Before installing Apache CXF, make sure the following products,
+with the specified versions, are installed on your system:
+
+    * Java 6 Development Kit
+    * Apache Maven 2.2.1 or 3.x to build the samples
+
+
+3.  Integrating CXF Into You Application
+
+If you use Maven to build your application, you need merely add
+appropriate dependencies. See the pom.xml files in the samples.
+
+If you don't use Maven, you'll need to add one or more jars to your
+classpath. The file lib/WHICH_JARS should help you decide which 
+jars you need.
+
+4. Building the Samples
+
+Building the samples included in the binary distribution is easy. Change to
+the samples directory and follow the build instructions in the README.txt file 
+included with each sample.
+
+5. Reporting Problems
+
+If you have any problems or want to send feedback of any kind, please e-mail the
+CXF dev list, dev@cxf.apache.org.  You can also file issues in JIRA at:
+
+http://issues.apache.org/jira/browse/CXF
+
+6. Migration notes:
+
+See the migration guide at:
+http://cxf.apache.org/docs/27-migration-guide.html
+for caveats when upgrading from CXF 2.6.x to 2.7.x.
+
+
+7. Specific issues, features, and improvements fixed in this version
+
+** Sub-task
+    * [CXF-4924] - Many docLocation for a server address
+
+** Bug
+    * [CXF-4897] - STS: check not found certificates in DefaultSubjectProvider for symmetric key type
+    * [CXF-4938] - Setting RuntimeDelegate instance in CXFNonSpringJaxrsServlet is too aggresive
+    * [CXF-4940] - CXF not (always) responding with the correct exception when working with an exception hierarchy
+    * [CXF-4941] - WS-RM related faults do not contain the correct addressing action
+    * [CXF-4946] - SourceGenerator needs to use URI resolve function when dealing with relative references containing parent folders
+    * [CXF-4947] - Potential problems with the JAXBContext being null
+    * [CXF-4949] - FIQL - searchContext returns null SearchCondition
+    * [CXF-4951] - cxf-codegen-plugin wsdlArtifact ignores classifier
+    * [CXF-4954] - CryptoCoverageChecker prevents handling of SOAPFault-Responses
+    * [CXF-4955] - Interoperability Issue of the Discovery Hello Message  - wrong SOAP-Header-Action
+    * [CXF-4957] - remove dependency="true" for jsr339-api specs bundle
+    * [CXF-4960] - Race conditions in SOAP/HTTP startup
+    * [CXF-4964] - NPE is thrown when WS-RM's destination has no ackPolicy configured
+    * [CXF-4967] - JSONProvider will throw NPE if DOM Document is used and dropRootElement and ignoreNamespaces properties are set
+    * [CXF-4969] - ExceptionMapper not used for exception in resource setter
+    * [CXF-4970] - cxf servlet transport doesn't work when the endpoint deployed by using Spring within OSGi
+    * [CXF-4975] - CXFNonSpringJaxrsServlet needs to ensure an optional Application path starts from "/"
+    * [CXF-4979] - WadlGenerator generates invalid xml for QueryParameters with a default value containing " characters
+    * [CXF-4982] - Codegen maven plugin fails forked execution on Windows XP environment
+    * [CXF-4983] - Response.getStatusInfo does not work if the status code can not be mapped to Status enum 
+    * [CXF-4986] - jax-rs2 request filter is unable to modify request header by adding a new header 
+    * [CXF-4990] - When thrown the fault from logical handle, the namespace setting doesn't work 
+    * [CXF-4991] - Classloading issue with EH-Cache availability checks
+    * [CXF-4992] - proxy sub-resources creating wrong request URIs with non-HTTP transports
+    * [CXF-4993] - LdapClaimsHandler can't find attributes if user authenticated against LDAP
+
+** Improvement
+    * [CXF-4747] - Support easier configuration of Spring bus with WebClient
+    * [CXF-4825] - Remove static JAX-RS API calls from within JAX-RS server and client runtimes
+    * [CXF-4959] - Support hierarchical mimetypes
+    * [CXF-4961] - Configuration 
+    * [CXF-4966] - KerberosClient does not need the cxf Bus but it is required in the constructor
+    * [CXF-4968] - Add an option to limit the number of active sequences that are created at WS-RM endpoints
+    * [CXF-4971] - JSONProvider should be able to drop a root dynamically
+    * [CXF-4974] - CXF JAX-RS Client interface should support close() calls similarly to frontend Client
+    * [CXF-4978] - Only encrypt an issued token if we have a matching key
+    * [CXF-4997] - Skip PolicyBasedWSS4JInInterceptor processing when AssertionInfoMap not available
+    * [CXF-4998] - JAXRSClientFactory: Missing factory method for username+password and providers
+
+** New Feature
+    * [CXF-4936] - (PATCH) Expose FastInfoset serializer tuning properties
+
+** Task
+    * [CXF-4950] - Support 'qs' media type parameters
+    * [CXF-4988] - JAX-RS Provider improvements
+
+** Wish
+    * [CXF-4898] - Allow to specify types in WSDiscoveryService registration
+
+
+
+
