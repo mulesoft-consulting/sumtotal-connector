@@ -134,7 +134,7 @@ public class SumTotalConnector {
         try {
             usersSoapClient.createUser(user, getUserSecurityContext(userToken));
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("WS ERROR ON CREATE USER CALL " + e.getMessage());
             //TODO - log this
         }
 
@@ -156,7 +156,7 @@ public class SumTotalConnector {
         try {
             foundUser = usersSoapClient.getUserByUserName(domainId, userName, population, getUserSecurityContext(userToken));
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("WS ERROR ON FIND USER CALL " + e.getMessage());
             //TODO - log this
         }
 
