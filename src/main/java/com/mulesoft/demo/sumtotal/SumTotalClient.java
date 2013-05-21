@@ -16,13 +16,18 @@ import javax.xml.ws.soap.SOAPFaultException;
 /**
  *
  */
-public class Utils {
+public class SumTotalClient {
     static final AuthenticationSoap authSoapClient = new Authentication().getAuthenticationSoap();
     static final UserManagementSoap usersSoapClient = new UserManagement().getUserManagementSoap();
     static final String USER = "wstest";
     static final String PASS = "learning";
-    static final String DOMAIN_ID = "3";
-    static final int POPULATION = 1;
+
+    // SumTotal example values
+    public static final int POPULATION = 1;
+    public static final String LANG_ID = "1";
+    public static final String TZ_ID = "127";
+    public static final String SEC_ROLE_ID = "207";
+    public static final String DOMAIN_ID = "3";
 
     public static void main(String [] args) throws Exception {
         UserToken token = doAuth(USER, PASS);
@@ -30,8 +35,8 @@ public class Utils {
         User authUser = getUser(USER, token);
         System.out.println("Logged in User's sec role id is " + authUser.getSecurityRoleId());
         String newUserName = "MuleSoft_" + new Object().hashCode();
-        User createdUser = doCreateUser(newUserName, authUser, token);
-        System.out.println("New User is " + createdUser.getUsername());
+        User createdUser = doCreateUser(newUserName, "TEST", "USER", "test@example.com", DOMAIN_ID, SEC_ROLE_ID, LANG_ID, TZ_ID, token);
+        System.out.println("New User is: " + printUser(createdUser));
         endSession(token);
 
         //brief test to make sure this fails when logged out
@@ -56,18 +61,21 @@ public class Utils {
      * RefUser is a an existing User object whose values we can copy (eg, TZ preference) as they are painful to lookup
      * manually.
      */
-    static User doCreateUser(String userName, User refUser, UserToken userToken) {
+    static User doCreateUser(String userName, String firstName, String lastName, String email, String domainID,
+                             String securityRoleID, String languageID, String timezoneID, UserToken userToken) {
         User user = new User();
         user.setUsername(userName);
-        user.setFirstName("Test");
-        user.setLastName("User");
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setEmail(email);
         user.setIsLoginEnabled(true);
         user.setPassword("learning");
-        user.setDomainId("3");
-        user.setSecurityRoleId(refUser.getSecurityRoleId());
-        user.setLanguagePreferenceId(refUser.getLanguagePreferenceId());
-        user.setTimeZonePreferenceId(refUser.getTimeZonePreferenceId());
+        user.setDomainId(domainID);
+        user.setSecurityRoleId(securityRoleID);
+        user.setLanguagePreferenceId(languageID);
+        user.setTimeZonePreferenceId(timezoneID);
         User created = usersSoapClient.createUser(user, getUserSecurityContext(userToken));
+
         return created;
     }
 
@@ -89,5 +97,19 @@ public class Utils {
 
     static void endSession(UserToken token) {
         authSoapClient.logout(getUserSecurityContext(token));
+    }
+
+    static String printUser(User user) {
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("\nUSERNAME : " + user.getUsername() + "\n");
+        stringBuffer.append("FIRST : " + user.getFirstName()+"\n");
+        stringBuffer.append("LAST : " + user.getLastName()+"\n");
+        stringBuffer.append("EMAIL : " + user.getEmail()+"\n");
+        stringBuffer.append("TZ ID : " + user.getTimeZonePreferenceId()+"\n");
+        stringBuffer.append("LANG ID : " + user.getLanguagePreferenceId()+"\n");
+        stringBuffer.append("SEC ROLE ID : " + user.getSecurityRoleId()+"\n");
+        stringBuffer.append("DOMAIN ID : " + user.getDomainId());
+
+        return stringBuffer.toString();
     }
 }

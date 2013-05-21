@@ -3,6 +3,7 @@
  */
 package com.mulesoft.demo.sumtotal;
 
+import com.sumtotalsystems.sumtotal7.sumtotalbo.User;
 import com.sumtotalsystems.sumtotal7.sumtotalws.UserToken;
 import org.mule.api.annotations.Connector;
 import org.mule.api.annotations.Connect;
@@ -11,8 +12,8 @@ import org.mule.api.annotations.ConnectionIdentifier;
 import org.mule.api.annotations.Disconnect;
 import org.mule.api.annotations.param.ConnectionKey;
 import org.mule.api.ConnectionException;
-import org.mule.api.annotations.Configurable;
 import org.mule.api.annotations.Processor;
+import org.mule.api.annotations.param.Optional;
 
 /**
  * Cloud Connector
@@ -22,29 +23,6 @@ import org.mule.api.annotations.Processor;
 @Connector(name="sumtotal", schemaVersion="1.0-SNAPSHOT")
 public class SumTotalConnector {
     private static UserToken USER_TOKEN = new UserToken();
-    /**
-     * Configurable
-     */
-    @Configurable
-    private String myProperty;
-
-    /**
-     * Set property
-     *
-     * @param myProperty My property
-     */
-    public void setMyProperty(String myProperty)
-    {
-        this.myProperty = myProperty;
-    }
-
-    /**
-     * Get property
-     */
-    public String getMyProperty()
-    {
-        return this.myProperty;
-    }
 
     /**
      * Connect
@@ -55,7 +33,7 @@ public class SumTotalConnector {
      */
     @Connect
     public void connect(@ConnectionKey String username, String password) throws ConnectionException {
-        USER_TOKEN = Utils.doAuth(username, password);
+        USER_TOKEN = SumTotalClient.doAuth(username, password);
     }
 
     /**
@@ -63,7 +41,7 @@ public class SumTotalConnector {
      */
     @Disconnect
     public void disconnect() {
-        Utils.endSession(USER_TOKEN);
+        SumTotalClient.endSession(USER_TOKEN);
     }
 
     /**
@@ -83,6 +61,33 @@ public class SumTotalConnector {
     }
 
     /**
+     * FOR DEBUG ONLY
+     *
+     * {@sample.xml ../../../doc/SumTotal-connector.xml.sample sumtotal:my-processor}
+     *
+     * @param content Content to be processed
+     * @return Some string
+     */
+    /*@Processor
+    public String getSecurityToken(String content) {
+        return "USER TOKEN IS " + USER_TOKEN.getValue();
+    }*/
+
+    /**
+     * Create User
+     *
+     * {@sample.xml ../../../doc/SumTotal-connector.xml.sample sumtotal:my-processor}
+     *
+     * @param @Optional Content to be processed
+     * @return Some string
+     */
+    @Processor
+    public User createUser(String userName, String firstName, String lastName, String email, String domainID,
+                           String securityRoleID, String languageID, String timezoneID) {
+        return SumTotalClient.doCreateUser(userName, firstName, lastName, email, domainID, securityRoleID, languageID, timezoneID, USER_TOKEN);
+    }
+
+    /**
      * Custom processor
      *
      * {@sample.xml ../../../doc/SumTotal-connector.xml.sample sumtotal:my-processor}
@@ -91,7 +96,7 @@ public class SumTotalConnector {
      * @return Some string
      */
     @Processor
-    public String getSecurityToken(String content) {
-        return "USER TOKEN IS " + USER_TOKEN.getValue();
+    public String findUser(String userName) {
+        return "NOT IMPLEMENTED YET";
     }
 }
