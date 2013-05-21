@@ -14,6 +14,7 @@ import com.sumtotalsystems.sumtotal7.sumtotalws.usermanagement.UserManagementSoa
 import javax.jws.WebParam;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.Holder;
+import javax.xml.ws.soap.SOAPFaultException;
 
 /**
  *
@@ -32,6 +33,17 @@ public class SanityCheck {
         String newUserName = "MuleSoft_" + new Object().hashCode();
         User createdUser = doCreateUser(newUserName, authUser, token);
         System.out.println("New User is " + createdUser.getUsername());
+        logOff(token);
+
+        //brief test to make sure this fails when logged out
+        try {
+            getUser(USER, token);
+        } catch (SOAPFaultException sfe) {
+            System.out.println("User token successfully invalidated");
+            //sfe.printStackTrace();
+            return;
+        }
+        System.out.println("If this line is reached an invalidated token has been used successfully - that's not a good thing");
 
     }
 
@@ -76,5 +88,10 @@ public class SanityCheck {
         Holder<UserToken> holder = new Holder<UserToken>(new UserToken());
         soapClient.login(credentials, holder);
         return holder.value;
+    }
+
+    static void logOff(UserToken token) {
+        AuthenticationSoap soapClient = new Authentication().getAuthenticationSoap();
+        soapClient.logout(getUserSecurityContext(token));
     }
 }
