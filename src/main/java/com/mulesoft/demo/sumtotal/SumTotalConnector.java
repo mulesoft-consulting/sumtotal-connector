@@ -132,7 +132,7 @@ public class SumTotalConnector {
         User created = null;
 
         try {
-            usersSoapClient.createUser(user, getUserSecurityContext(userToken));
+            created = usersSoapClient.createUser(user, getUserSecurityContext(userToken));
         } catch (Exception e) {
             System.out.println("WS ERROR ON CREATE USER CALL " + e.getMessage());
             //TODO - log this
