@@ -3,6 +3,7 @@
  */
 package com.mulesoft.demo.sumtotal;
 
+import com.sumtotalsystems.sumtotal7.sumtotalws.UserToken;
 import org.mule.api.annotations.Connector;
 import org.mule.api.annotations.Connect;
 import org.mule.api.annotations.ValidateConnection;
@@ -19,8 +20,8 @@ import org.mule.api.annotations.Processor;
  * @author MuleSoft, Inc.
  */
 @Connector(name="sumtotal", schemaVersion="1.0-SNAPSHOT")
-public class SumTotalConnector
-{
+public class SumTotalConnector {
+    private static UserToken USER_TOKEN = new UserToken();
     /**
      * Configurable
      */
@@ -53,11 +54,8 @@ public class SumTotalConnector
      * @throws ConnectionException
      */
     @Connect
-    public void connect(@ConnectionKey String username, String password)
-        throws ConnectionException {
-        /*
-         * CODE FOR ESTABLISHING A CONNECTION GOES IN HERE
-         */
+    public void connect(@ConnectionKey String username, String password) throws ConnectionException {
+        USER_TOKEN = Utils.doAuth(username, password);
     }
 
     /**
@@ -65,9 +63,7 @@ public class SumTotalConnector
      */
     @Disconnect
     public void disconnect() {
-        /*
-         * CODE FOR CLOSING A CONNECTION GOES IN HERE
-         */
+        Utils.endSession(USER_TOKEN);
     }
 
     /**
@@ -75,7 +71,7 @@ public class SumTotalConnector
      */
     @ValidateConnection
     public boolean isConnected() {
-        return true;
+        return USER_TOKEN.getValue() != null;
     }
 
     /**
@@ -83,7 +79,7 @@ public class SumTotalConnector
      */
     @ConnectionIdentifier
     public String connectionId() {
-        return "001";
+        return USER_TOKEN.getValue();
     }
 
     /**
@@ -95,12 +91,7 @@ public class SumTotalConnector
      * @return Some string
      */
     @Processor
-    public String myProcessor(String content)
-    {
-        /*
-         * MESSAGE PROCESSOR CODE GOES HERE
-         */
-
-        return content;
+    public String getSecurityToken(String content) {
+        return "USER TOKEN IS " + USER_TOKEN.getValue();
     }
 }
