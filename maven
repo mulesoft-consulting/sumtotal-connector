@@ -1,1 +1,1 @@
-mvn clean install -Ddevkit.javadoc.check.skip=true -Dmaven.test.skip=true -Ddevkit.studio.package.skip=false -X
+mvn clean install -Ddevkit.javadoc.check.skip=false -Dmaven.test.skip=true -Ddevkit.studio.package.skip=false

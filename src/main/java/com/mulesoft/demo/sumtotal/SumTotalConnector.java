@@ -101,12 +101,20 @@ public class SumTotalConnector {
     }
 
     /**
-     * Create User
+     * Create a new SumTotal User record
      *
-     * {@sample.xml ../../../doc/SumTotal-connector.xml.sample sumtotal:my-processor}
+     * {@sample.xml ../../../doc/SumTotal-connector.xml.sample sumtotal:create-user}
      *
-     * @param @Optional Content to be processed
-     * @return Some string
+     * @param userName User's full username for SumTotal
+     * @param firstName User's full username for SumTotal
+     * @param lastName User's full username for SumTotal
+     * @param email User's full username for SumTotal
+     * @param domainId User's full username for SumTotal
+     * @param securityRoleId The SumTotal ID code of the security role this user has
+     * @param languageId The SumTotal ID code of the language this user uses (locale)
+     * @param timezoneId The SumTotal ID code of the timezone this user is in
+     *
+     * @return The newly created User, or null if the User record could not be created
      */
     @Processor
     public User createUser(String userName,
@@ -142,12 +150,14 @@ public class SumTotalConnector {
     }
 
     /**
-     * Custom processor
+     * Find a specific SumTotal User record
      *
-     * {@sample.xml ../../../doc/SumTotal-connector.xml.sample sumtotal:my-processor}
+     * {@sample.xml ../../../doc/SumTotal-connector.xml.sample sumtotal:find-user}
      *
-     * @param content Content to be processed
-     * @return Some string
+     * @param userName The SumTotal Username of the User to be found
+     * @param domainId The domain the User belongs to
+     * @param population The depth of results to return
+     * @return User The User record if found, else NULL
      */
     @Processor
     public User findUser(String userName, String domainId, int population) {
