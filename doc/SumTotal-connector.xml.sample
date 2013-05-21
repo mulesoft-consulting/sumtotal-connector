@@ -1,3 +1,14 @@
-<!-- BEGIN_INCLUDE(sumtotal:my-processor) -->
-    <sumtotal:my-processor content="#[map-payload:content]" />
-<!-- END_INCLUDE(sumtotal:my-processor) -->
+<!-- BEGIN_INCLUDE(sumtotal:create-user) -->
+    <sumtotal:create-user
+    userName="#[map-payload:userName]"
+    firstName="#[map-payload:firstName]"
+    lastName="#[map-payload:lastName]"
+    email="#[map-payload:email]"
+    securityRoleId="#[map-payload:securityRoleId]"
+    domainId="#[map-payload:domainId]"
+    languageId="#[map-payload:languageId]"
+    timezoneId="#[map-payload:timezoneId]"  />
+<!-- END_INCLUDE(sumtotal:create-user) -->
+<!-- BEGIN_INCLUDE(sumtotal:find-user) -->
+    <sumtotal:find-user userName="#[map-payload:userName]" population="#[map-payload:population]" domainId="#[map-payload:domainID]" />
+<!-- END_INCLUDE(sumtotal:find-user) -->
