@@ -173,6 +173,21 @@ public class SumTotalConnector {
         return foundUser;
     }
 
+    @Processor
+    public User deleteUser(String userId)  {
+        User deletedUser = null;
+
+        try {
+            deletedUser = usersSoapClient.deleteUser(userId, getUserSecurityContext(userToken));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            // todo log this
+        }
+
+        return deletedUser;
+    }
+
+
     /**
      * Utility method for testing
      *
