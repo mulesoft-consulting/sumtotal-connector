@@ -4,9 +4,11 @@
 package com.mulesoft.demo.sumtotal;
 
 import com.sumtotalsystems.sumtotal7.sumtotalbo.User;
+import com.sumtotalsystems.sumtotal7.sumtotalbo.UserAcquiredSkill;
 import com.sumtotalsystems.sumtotal7.sumtotalws.UserSecurityContext;
 import com.sumtotalsystems.sumtotal7.sumtotalws.UserToken;
 import com.sumtotalsystems.sumtotal7.sumtotalws.authentication.*;
+import com.sumtotalsystems.sumtotal7.sumtotalws.usermanagement.ArrayOfUserAcquiredSkill;
 import com.sumtotalsystems.sumtotal7.sumtotalws.usermanagement.UserManagement;
 import com.sumtotalsystems.sumtotal7.sumtotalws.usermanagement.UserManagementSoap;
 import org.mule.api.annotations.Connector;
@@ -22,6 +24,7 @@ import org.mule.api.annotations.param.Optional;
 import sun.util.LocaleServiceProviderPool;
 
 import javax.xml.ws.Holder;
+import java.util.List;
 
 /**
  * SumTotal Cloud Connector
@@ -185,6 +188,20 @@ public class SumTotalConnector {
         }
 
         return deletedUser;
+    }
+
+    @Processor
+    public List<UserAcquiredSkill> getAcquiredSkillsForUser(String userId, int populationLevel)  {
+        ArrayOfUserAcquiredSkill skills = new ArrayOfUserAcquiredSkill();
+
+        try {
+             skills = usersSoapClient.getAcquiredSkills(userId, populationLevel, getUserSecurityContext(userToken));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            // todo log this
+        }
+
+        return skills.getUserAcquiredSkill();
     }
 
 
