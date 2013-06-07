@@ -30,7 +30,7 @@ public class UserManagement
         try {
             URL baseUrl;
             baseUrl = com.sumtotalsystems.sumtotal7.sumtotalws.usermanagement.UserManagement.class.getResource(".");
-            url = new URL(baseUrl, "http://mtn-sademo-128.sumtotalsystems.com/SumTotalWS/Services/usermanagement.asmx?wsdl");
+            url = new URL(baseUrl, "usermanagement.asmx?wsdl");
         } catch (MalformedURLException e) {
             logger.warning("Failed to create URL for the wsdl Location: 'http://mtn-sademo-128.sumtotalsystems.com/SumTotalWS/Services/usermanagement.asmx?wsdl', retrying as a local file");
             logger.warning(e.getMessage());

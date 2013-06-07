@@ -30,7 +30,7 @@ public class Authentication
         try {
             URL baseUrl;
             baseUrl = com.sumtotalsystems.sumtotal7.sumtotalws.authentication.Authentication.class.getResource(".");
-            url = new URL(baseUrl, "http://mtn-sademo-128.sumtotalsystems.com/SumTotalWS/Services/authentication.asmx?wsdl");
+            url = new URL(baseUrl, "authentication.asmx?wsdl");
         } catch (MalformedURLException e) {
             logger.warning("Failed to create URL for the wsdl Location: 'http://mtn-sademo-128.sumtotalsystems.com/SumTotalWS/Services/authentication.asmx?wsdl', retrying as a local file");
             logger.warning(e.getMessage());
