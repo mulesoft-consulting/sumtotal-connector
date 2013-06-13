@@ -13,6 +13,7 @@ import com.sumtotalsystems.sumtotal7.sumtotalws.usermanagement.UserManagement;
 import com.sumtotalsystems.sumtotal7.sumtotalws.usermanagement.UserManagementSoap;
 import org.mule.api.ConnectionExceptionCode;
 import org.mule.api.annotations.*;
+import org.mule.api.annotations.display.Password;
 import org.mule.api.annotations.param.ConnectionKey;
 import org.mule.api.ConnectionException;
 import org.mule.api.annotations.param.Default;
@@ -38,7 +39,7 @@ public class SumTotalConnector {
     private QName userMgmtQName = new QName("http://www.sumtotalsystems.com/sumtotal7/sumtotalws/UserManagement/","UserManagement");
 
     // SumTotal example values
-    private static final String DEMO_WS_ADDRESS = "http://mtn-sademo-128.sumtotalsystems.com/SumTotalWS/Services/";
+    //private static final String DEMO_WS_ADDRESS = "http://mtn-sademo-128.sumtotalsystems.com/SumTotalWS/Services/";
     private static final String USER = "wstest";
     private static final String PASS = "learning";
     private static final int DEFAULT_POPULATION = 1;
@@ -47,36 +48,43 @@ public class SumTotalConnector {
     private static final String SEC_ROLE_ID = "207";
     private static final String DOMAIN_ID = "3";
 
-    /**
+/*
+    */
+/**
      * Gets the base URL
      *
      * @return String baseServiceURL
-     */
+     *//*
+
     public String getBaseServiceURL() {
-        return (baseServiceURL == null ? DEMO_WS_ADDRESS : baseServiceURL);
+        return baseServiceURL;
     }
 
-    /**
+    */
+/**
      * Sets the base URL
      *
      * @param baseServiceURL
-     */
+     *//*
+
     public void setBaseServiceURL(String baseServiceURL) {
         this.baseServiceURL = baseServiceURL;
     }
 
-    /**
+    */
+/**
      * The base location of the target SumTotal Web Service for this Connector
-     */
-    @Configurable
-    @Optional
-    @Default(DEMO_WS_ADDRESS)
-    private String baseServiceURL;
+     *//*
 
-    private void initServices() throws Exception{
-        authSoapClient = new Authentication(new URL(baseServiceURL + "authentication.asmx?wsdl"), authQName).getAuthenticationSoap();
-        usersSoapClient = new UserManagement(new URL(baseServiceURL + "usermanagement.asmx?wsdl"), userMgmtQName).getUserManagementSoap();
+    @Configurable
+    private String baseServiceURL;
+    */
+
+    private void initServices(String baseServiceUrl) throws Exception{
+        authSoapClient = new Authentication(new URL(baseServiceUrl + "authentication.asmx?wsdl"), authQName).getAuthenticationSoap();
+        usersSoapClient = new UserManagement(new URL(baseServiceUrl + "usermanagement.asmx?wsdl"), userMgmtQName).getUserManagementSoap();
     }
+
 
     /**
      * Connect
@@ -86,9 +94,9 @@ public class SumTotalConnector {
      * @throws ConnectionException
      */
     @Connect
-    public void connect(@ConnectionKey String username, String password) throws ConnectionException {
+    public void connect(@ConnectionKey String username, @Password String password, String baseServiceUrl) throws ConnectionException {
         try {
-            initServices();
+            initServices(baseServiceUrl);
         } catch (Exception e) {
             throw new ConnectionException(ConnectionExceptionCode.CANNOT_REACH, e.getMessage(), "Could not initiate soap clients", e);
         }
